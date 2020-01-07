@@ -1,0 +1,4 @@
+/.vscode/settings.json
+/db.sqlite3
+/Pipfile.lock
+/polls/migrations/0001_initial.py
