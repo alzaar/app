@@ -3,8 +3,9 @@ from rest_framework.views import APIView
 from .models import Poll, Choice, Vote
 from .serializers import PollSerializer, VoteSerializer, ChoiceSerializer
 from rest_framework.response import Response
-from rest_framework import generics
+from rest_framework import generics, viewsets
 
+# Poll List and Poll Detail classes can be grouped together under PollViewSet class whihc is a subclass of ModelViewSets and thus can be ignored
 class PollList(generics.ListCreateAPIView):
   queryset = Poll.objects.all()
   serializer_class = PollSerializer
@@ -47,3 +48,7 @@ class CreateVote(generics.CreateAPIView):
 # class VoteDetail(generics.RetrieveDestroyAPIView):
 #   queryset = Vote.objects.all()
 #   serializer_class = VoteSerializer
+
+class PollViewSet(viewsets.ModelViewSet):
+  queryset = Poll.objects.all()
+  serializer_class = PollSerializer
