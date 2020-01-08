@@ -22,13 +22,28 @@ class PollDetail(generics.RetrieveDestroyAPIView):
   #   return Response(data)
 
 class ChoiceList(generics.ListCreateAPIView):
-  queryset = Choice.objects.all()
+  def get_queryset(self):
+    queryset = Choice.objects.filter(poll_id=self.kwargs['pk'])
+    return queryset
   serializer_class = ChoiceSerializer
 
-class CreateVote(generics.ListCreateAPIView):
-  queryset = Vote.objects.all()
+class CreateVote(generics.CreateAPIView):
   serializer_class = VoteSerializer
 
-class VoteDetail(generics.RetrieveDestroyAPIView):
-  queryset = Vote.objects.all()
-  serializer_class = VoteSerializer
+  def post(self, request, pk, choice_pk):
+    voted_by = request.data.get('voted_by')
+    data = {
+      'poll_id': pk,
+      'choice_id': choice_id,
+      'voted_by': voted_by
+    }
+    serializer = VoteSerializer(data=data)
+    if serializer.is_valid():
+      vote = serializer.save()
+      return Response(serializer.data, status=status.HTTP_201_CREATED)
+    else:
+      return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# class VoteDetail(generics.RetrieveDestroyAPIView):
+#   queryset = Vote.objects.all()
+#   serializer_class = VoteSerializer
