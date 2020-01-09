@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Poll, Choice, Vote
+from django.contrib.auth.models import User
 
 class VoteSerializer(serializers.ModelSerializer):
   class Meta:
@@ -17,3 +18,9 @@ class PollSerializer(serializers.ModelSerializer):
   class Meta:
     model = Poll
     fields = '__all__'
+
+class UserSerializer(serializers):
+  class Meta:
+    model = User
+    fields = ('id', 'username', 'password')
+    extra_kwargs = { 'password': { 'write_only': True } }
