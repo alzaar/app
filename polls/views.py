@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from rest_framework.views import APIView
 from .models import Poll, Choice, Vote
-from .serializers import PollSerializer, VoteSerializer, ChoiceSerializer
+from .serializers import PollSerializer, VoteSerializer, ChoiceSerializer, UserSerializer
 from rest_framework.response import Response
 from rest_framework import generics, viewsets
 
@@ -52,3 +52,8 @@ class CreateVote(generics.CreateAPIView):
 class PollViewSet(viewsets.ModelViewSet):
   queryset = Poll.objects.all()
   serializer_class = PollSerializer
+
+class UserCreate(generics.CreateAPIView):
+  permission_classes = ()
+  authentication_classes = ()
+  serializer_class = UserSerializer
